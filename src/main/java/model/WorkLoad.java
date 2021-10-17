@@ -2,11 +2,13 @@ package model;
 
 import lombok.Getter;
 
+import static config.Config.PRICES_CONFIG;
+
 public enum WorkLoad {
-    VERY_HIGH (1.6f),
-    HIGH (1.4f),
-    INCREASED (1.2f),
-    STANDARD (1);
+    VERY_HIGH (PRICES_CONFIG.veryHighWorkload()),
+    HIGH (PRICES_CONFIG.highWorkload()),
+    INCREASED (PRICES_CONFIG.increasedWorkload()),
+    STANDARD (PRICES_CONFIG.standardWorkload());
 
     @Getter
     private float loadFactor;
