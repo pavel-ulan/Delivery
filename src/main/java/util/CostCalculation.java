@@ -6,7 +6,10 @@ import model.Distance;
 import model.Profile;
 import model.WorkLoad;
 
+import static config.Config.PRICES_CONFIG;
+
 public class CostCalculation {
+
     public static int getFinalPrise(int range, Profile profile, boolean fragility, WorkLoad currentLoad) throws FragileException {
         float finalPrice = priceCalculation(loadCargoData(range, profile, fragility, currentLoad));
         return checkFinalPriceLimit(finalPrice);
@@ -29,7 +32,7 @@ public class CostCalculation {
     }
 
     private static int checkFinalPriceLimit(float price) {
-        if (price < 400) return 400;
+        if (price < PRICES_CONFIG.minPrice()) return PRICES_CONFIG.minPrice();
         else return Math.round(price);
     }
 
@@ -38,7 +41,7 @@ public class CostCalculation {
         if (cargo.isFragile()) {
             return (cargo.getDistance().getDistanceCost()
                     + cargo.getProfile().getProfileCost()
-                    + 300)
+                    + PRICES_CONFIG.cargoFragile())
                     * cargo.getLoadFactor().getLoadFactor();
         } else {
             return (cargo.getDistance().getDistanceCost()
