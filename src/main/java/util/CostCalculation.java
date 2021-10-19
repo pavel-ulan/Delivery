@@ -1,6 +1,7 @@
 package util;
 
 import exeptions.FragileException;
+import exeptions.RangeException;
 import model.Cargo;
 import model.Distance;
 import model.Profile;
@@ -16,6 +17,7 @@ public class CostCalculation {
     }
 
     private static Cargo loadCargoData(int range, Profile profile, boolean fragility, WorkLoad currentLoad) {
+        rangeValidation(range);
         if (range < 2) return new Cargo(Distance.LESS_2, profile, fragility, currentLoad);
         else {
             if (range < 10) return new Cargo(Distance.LESS_10, profile, fragility, currentLoad);
@@ -34,6 +36,10 @@ public class CostCalculation {
     private static int checkFinalPriceLimit(float price) {
         if (price < PRICES_CONFIG.minPrice()) return PRICES_CONFIG.minPrice();
         else return Math.round(price);
+    }
+
+    private static void rangeValidation(int range) {
+        if (range<=0||range>40000) throw new RangeException("It seems, that your destination isn't correct");
     }
 
     private static float priceCalculation(Cargo cargo) throws FragileException {
