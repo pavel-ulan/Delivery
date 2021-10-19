@@ -24,6 +24,7 @@
         <junit-jupiter.version>5.5.1</junit-jupiter.version>
         <junit-platform-commons.version>1.5.2</junit-platform-commons.version>
         <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
+        <aspectj.version>1.9.4</aspectj.version>
     </properties>
 
     <dependencies>
@@ -102,6 +103,11 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
+                <configuration>
+                    <argLine>
+                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                    </argLine>
+                </configuration>
             </plugin>
 
             <plugin>

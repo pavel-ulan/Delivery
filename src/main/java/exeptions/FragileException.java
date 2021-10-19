@@ -1,6 +1,6 @@
 package exeptions;
 
-public class FragileException extends Exception{
+public class FragileException extends RuntimeException{
     public FragileException(String message){
         super(message);
     }
