@@ -1,4 +1,4 @@
-package util;
+package util.impl;
 
 import exeptions.FragileException;
 import exeptions.RangeException;
@@ -6,17 +6,18 @@ import model.Cargo;
 import model.Distance;
 import model.Profile;
 import model.WorkLoad;
+import util.ICostCalculation;
 
 import static config.Config.PRICES_CONFIG;
 
-public class CostCalculation {
+public class CostCalculation implements ICostCalculation {
 
-    public static int getFinalPrise(int range, Profile profile, boolean fragility, WorkLoad currentLoad) throws FragileException {
+    public int getFinalPrise(int range, Profile profile, boolean fragility, WorkLoad currentLoad) throws FragileException {
         float finalPrice = priceCalculation(loadCargoData(range, profile, fragility, currentLoad));
         return checkFinalPriceLimit(finalPrice);
     }
 
-    private static Cargo loadCargoData(int range, Profile profile, boolean fragility, WorkLoad currentLoad) {
+    private Cargo loadCargoData(int range, Profile profile, boolean fragility, WorkLoad currentLoad) {
         rangeValidation(range);
         if (range < 2) return new Cargo(Distance.LESS_2, profile, fragility, currentLoad);
         else {
@@ -28,21 +29,21 @@ public class CostCalculation {
         return new Cargo(Distance.MORE_30, profile, fragility, currentLoad);
     }
 
-    private static void checkDeliveryPossibilityIfFragile(Cargo cargo) throws FragileException {
+    private void checkDeliveryPossibilityIfFragile(Cargo cargo) throws FragileException {
         if (cargo.getDistance().equals(Distance.MORE_30) && cargo.isFragile())
             throw new FragileException("We cannot yet deliver the fragile cargo so far");
     }
 
-    private static int checkFinalPriceLimit(float price) {
+    private int checkFinalPriceLimit(float price) {
         if (price < PRICES_CONFIG.minPrice()) return PRICES_CONFIG.minPrice();
         else return Math.round(price);
     }
 
-    private static void rangeValidation(int range) {
+    private void rangeValidation(int range) {
         if (range<=0||range>40000) throw new RangeException("It seems, that your destination isn't correct");
     }
 
-    private static float priceCalculation(Cargo cargo) throws FragileException {
+    private float priceCalculation(Cargo cargo) throws FragileException {
         checkDeliveryPossibilityIfFragile(cargo);
         if (cargo.isFragile()) {
             return (cargo.getDistance().getDistanceCost()

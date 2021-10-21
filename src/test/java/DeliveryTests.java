@@ -1,15 +1,18 @@
+import com.google.inject.Inject;
+import config.CostStepsModule;
 import io.qameta.allure.Feature;
 import lombok.SneakyThrows;
 import model.Profile;
 import model.WorkLoad;
+import name.falgout.jeffrey.testing.junit.guice.IncludeModule;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import steps.CostSteps;
 
 import java.util.List;
 import java.util.stream.Stream;
 
-import static steps.CostSteps.*;
-
+@IncludeModule({CostStepsModule.class})
 public class DeliveryTests {
 
     static Stream<List> validCargoDataListProvider() {
@@ -41,11 +44,14 @@ public class DeliveryTests {
         );
     }
 
+    @Inject
+    CostSteps costSteps;
+
     @ParameterizedTest
     @MethodSource("validCargoDataListProvider")
     @Feature("Check valid data")
     void deliveryCalcTest(List list) {
-        assertDeliveryPriceIsCorrect(list);
+        costSteps.assertDeliveryPriceIsCorrect(list);
     }
 
     @SneakyThrows
@@ -53,13 +59,13 @@ public class DeliveryTests {
     @MethodSource("invalidRangeCargoDataListProvider")
     @Feature("Check range exception")
     void rangeExceptionCalcTest(List list) {
-        assertRangeException(list);
+        costSteps.assertRangeException(list);
     }
 
     @ParameterizedTest
     @MethodSource("invalidCargoDataListProvider")
     @Feature("Check fragile exception")
     void fragileExceptionCalcTest(List list) {
-        assertFragileException(list);
+        costSteps.assertFragileException(list);
     }
 }

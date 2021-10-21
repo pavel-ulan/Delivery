@@ -25,6 +25,8 @@
         <junit-platform-commons.version>1.5.2</junit-platform-commons.version>
         <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
         <aspectj.version>1.9.4</aspectj.version>
+        <google.guice.version>4.2.3</google.guice.version>
+        <guice-extension.version>1.2.0</guice-extension.version>
     </properties>
 
     <dependencies>
@@ -94,6 +96,20 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <version>${maven-surefire-plugin.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+            <version>${google.guice.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/name.falgout.jeffrey.testing.junit5/guice-extension -->
+        <dependency>
+            <groupId>name.falgout.jeffrey.testing.junit5</groupId>
+            <artifactId>guice-extension</artifactId>
+            <version>${guice-extension.version}</version>
+        </dependency>
+
 
     </dependencies>
 

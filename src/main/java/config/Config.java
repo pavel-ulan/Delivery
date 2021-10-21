@@ -9,5 +9,4 @@ public class Config {
 
     public static final PricesConfig PRICES_CONFIG = ConfigFactory.create(PricesConfig.class);
 
-
 }
